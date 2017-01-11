@@ -72,13 +72,7 @@ The BM consists of a complex matrix of proteins (extracellular matrix, ECM) that
 \beq\label{eq:darcy}
   \q = -K(p_z) \boldsymbol{\nabla} p
 \eeq
-where $K(p_z)$\footnote{Note that the permeability $K$ used here is the ratio of the intrinsic permeability $k$ of the ECM to the viscosity $\mu$ of ISF, that is $K = k / \mu$} is the pressure gradient dependent permeability of the ECM. We allow the permeability $K$ to be a function of the axial component of the ISF pressure gradient $\partial p(z,t) / \partial z = p_z(z,t)$. In order to obtain a net flux up the vessel, counter to the blood flow, we require this function to be increasing in $p_z$, representing the notion that it is harder to push a flow in the positive $z$-direction ($p_z<0$ and $K(p_z)$ small) than in the negative $z$-direction ($p_z>0$ and $K(p_z)$ large)
-\begin{equation}
-  K(p_z) = \begin{cases}
-    K_0 & p_z > 0\\
-    K_1 & p_z \leq 0.
-  \end{cases}
-\end{equation}
+where $K(p_z)$\footnote{Note that the permeability $K$ used here is the ratio of the intrinsic permeability $k$ of the ECM to the viscosity $\mu$ of ISF, that is $K = k / \mu$} is the pressure gradient dependent permeability of the ECM. We allow the permeability $K$ to be a function of the axial component of the ISF pressure gradient $\partial p(z,t) / \partial z = p_z(z,t)$. In order to obtain a net flux up the vessel, counter to the blood flow, we require this function to be increasing in $p_z$, representing the notion that it is harder to push a flow in the positive $z$-direction ($p_z<0$ and $K(p_z)$ small) than in the negative $z$-direction ($p_z>0$ and $K(p_z)$ large).
 
 Because of the boundary conditions used we will continue working in terms of the fluid velocity $\vel$, which is related to $\q$ by the linear relationship $\vel = \gamma \, \q$, where $\gamma$ is the porosity of the medium. The governing equations in cylindrical coordinates are thus
 \begin{gather}
@@ -107,7 +101,14 @@ which describes the evolution of the BM thickness and can be solved using a fini
 2\pi \frac{\dd}{\dd t} \left( R_i(z,t) \cdot h(z,t) \right) &= \nonumber \\ 
 2\pi \cdot R_i(z,t) \cdot h(z,t) & \cdot q(z,t) - 2\pi \cdot R_i(z + dz,t) \cdot h(z + dz,t) \cdot q(z + dz,t),
 \end{align}
-which is equal to the model equation \eqref{eq:pvs_model}. For a detailed derivation see Supplementary Information 1. The pressure $p(z,t)$ and the displacement of the BM wall $R_i(z,t)$ are, to a very good approximation, determined solely by the arterial pressure (\ie almost independent of the BM flow), see Supplementary Information 2 for more details. $R_i(z,t)$ and $p_z$ can be obtained from a numerical artery model described in the next section.
+which is equal to the model equation \eqref{eq:pvs_model}. For a detailed derivation see Supplementary Information 1. The pressure $p(z,t)$ and the displacement of the BM wall $R_i(z,t)$ are, to a very good approximation, determined solely by the arterial pressure (\ie almost independent of the BM flow), see Supplementary Information 2 for more details. $R_i(z,t)$ and $p_z$ can be obtained from a numerical artery model described in the next section. To model the protein valve that is being proposed here $K(p_z)$ is defined as a step function
+\begin{equation}
+  K(p_z) = \begin{cases}
+    K_0 & p_z > 0\\
+    K_1 & p_z \leq 0
+  \end{cases}
+\end{equation}
+with $K_1 > K_0$.
 
 
 \section{Numerical Model of a Straight Arterial Section}
