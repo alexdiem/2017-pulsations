@@ -115,7 +115,7 @@ with $K_1 > K_0$.
 
 \begin{table}
 \center
-\caption{Parameters used to simulate the MCA including the first bifurcation.\label{tab:parameter}}
+\caption{Geometry parameters of the MCA section modelled using VaMpy \cite{Diem2016a}.\label{tab:geometry}}
 \begin{tabular}{ccc}
 \toprule
 Parameter & Value & Physical meaning\\
@@ -137,24 +137,11 @@ $L$ & \SI{6.5}{\centi\metre} & length\\
 $R_u$ & \SI{0.13}{\centi\metre} & upstream radius\\
 $R_d$ & \SI{0.08}{\centi\metre} & downstream radius\\
 $L$ & \SI{6.4}{\centi\metre} & length\\
-\midrule
-\multicolumn{3}{l}{Simulation parameters}\\
-\midrule
-$k_1$ & \SI{2.0e7}{\gram\per\centi\metre\per\square\second} & wall elasticity parameter (see \cite{Olufsen2000,Diem2016a})\\
-$k_2$ & \SI{-22.53}{\per\centi\metre} & wall elasticity parameter (see \cite{Olufsen2000,Diem2016a})\\
-$k_3$ & \SI{8.65e5}{\gram\per\centi\metre\per\square\second} & wall elasticity parameter (see \cite{Olufsen2000,Diem2016a})\\
-$R_1$ & \SI{14130}{\gram\per\centi\metre\tothe{4}\per\second} & First resistance element\\
-$R_2$ & \SI{7200}{\gram\per\centi\metre\tothe{4}\per\second} & Second resistance element\\
-$C_T$ & \SI{2.4752e-3}{\centi\metre\tothe{4}\square\second\per\gram} & Compliance element\\
-$T$ & \SI{0.85}{\second} & cardiac cycle length\\
-$t_c$ & 4 & number of cardiac cycles simulated\\
-$\Delta t$ & \SI{1e-5}{\second} & time step size\\
-$\Delta z$ & \SI{0.1}{\centi\metre} & spatial step size\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Following the geometry outlined in \autoref{sec:diodemodel} arteries are modelled as axisymmetric tubes in a cylindrical coordinate system with cross-sectional area $A(z,t) = \pi R(z,t)^2$ and flux $q(z,t)$. Following the derivations in \cite{Olufsen2000,Diem2016} arteries are represented by the conservation law
+In order to obtain the input functions $R_i(z,t)$ and $p_z$ for the analytical model developed in the previous section, a section of human MCA was modelled as a 1D axisymmetric tube in a cylindrical coordinate system with cross-sectional lumen area $A(z,t)$ and flux $q(z,t)$ using the Python package VaMpy \cite{Diem2016a}. The geometry parameters are listed in \autoref{tab:geometry}. Following the derivations in \cite{Olufsen2000,Diem2016} arteries are represented by the conservation law
 \begin{equation}
   \frac{\dd \boldsymbol{U}}{\dd t} + \frac{\dd \boldsymbol{F}}{\dd z} = \boldsymbol{S}, \label{eq:conservation}
 \end{equation}
@@ -166,7 +153,35 @@ where
     &\left( 2 \sqrt{A(z,t)} \left( \sqrt{\pi} f(r_0) + \sqrt{A_0(z)} \frac{df(r_0)}{dr_0 } \right) - A(z,t) \frac{df(r_0)}{dr_0} \right) \frac{dr_0(z)}{dz}.
   \end{split}
 \end{gather*}
-This system of equations can be solved numerically using Richtmyer's two-step version of the Lax-Wendroff method, as done by others \cite{Olufsen2000,LeVeque1992,Kolachalama2007}. We use the code from \cite{Diem2016a}, which is an implementation of the Lax-Wendroff method in Python, to implement a model of the MCA and its first bifurcation. All simulation parameters are listed in \autoref{tab:parameter}. The MCA radius was taken from \cite{Cousins2014} and following their estimate that generally the length of an artery is $50 \cdot R_u$ lengths were calculated accordingly. The radii of the daughter vessels were estimated using a scaling factor of 0.91, also obtained from \cite{Cousins2014}. The length of the right daughter vessel was shortened slightly to avoid reflective waves cancelling one another out, as also done in \cite{Kolachalama2007}. A three-element Windkessel (3WK) model is used at the outlet whose parameters were obtained from \cite{Olufsen2002}.
+Elasticity of the artery wall is modelled via the quantity $f(r_0) = 4Eh/(3r_0)$. The relationship $Eh/r_0$ is based on compliance estimates
+\begin{equation}
+  \frac{Eh}{r_0} = k_1 \exp \left( k_2 r_0(z) \right) + k_3
+\end{equation}
+with $k_1, k_2, k_3$ constants \cite{Olufsen2000}. To derive \eqref{eq:conservation} it was necessary to make assumptions about the velocity profile of blood flow through an artery. Blood flow is considered pulsatile laminar and vessels are considered slightly tapered, therefore the velocity profile is assumed to be mostly flat with a thin boundary layer $\delta_b = (\nu T/(2\pi))^{0.5}$, such that $\delta_b \ll R(z,t)$ \cite{Olufsen2000}.
+
+\begin{table}
+\center
+\caption{Simulation parameters for modelling a bifurcation of the MCA using VaMpy \cite{Diem2016a}.\label{tab:simulation}}
+\begin{tabular}{ccc}
+\toprule
+Parameter & Value & Physical meaning\\
+\midrule
+$k_1$ & \SI{2.0e7}{\gram\per\centi\metre\per\square\second} & wall elasticity parameter (see \cite{Olufsen2000,Diem2016a})\\
+$k_2$ & \SI{-22.53}{\per\centi\metre} & wall elasticity parameter (see \cite{Olufsen2000,Diem2016a})\\
+$k_3$ & \SI{8.65e5}{\gram\per\centi\metre\per\square\second} & wall elasticity parameter (see \cite{Olufsen2000,Diem2016a})\\
+$\nu$ & \SI{0.046}{\square\centi\metre\per\second} & kinematic viscosity of blood\\
+$R_1$ & \SI{14130}{\gram\per\centi\metre\tothe{4}\per\second} & First resistance element\\
+$R_2$ & \SI{7200}{\gram\per\centi\metre\tothe{4}\per\second} & Second resistance element\\
+$C_T$ & \SI{2.4752e-3}{\centi\metre\tothe{4}\square\second\per\gram} & Compliance element\\
+$T$ & \SI{0.85}{\second} & cardiac cycle length\\
+$t_c$ & 4 & number of cardiac cycles simulated\\
+$\Delta t$ & \SI{1e-5}{\second} & time step size\\
+$\Delta z$ & \SI{0.1}{\centi\metre} & spatial step size\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This system of equations can be solved numerically using Richtmyer's two-step version of the Lax-Wendroff method, as done by others \cite{Olufsen2000,LeVeque1992,Kolachalama2007}. We use the code from \cite{Diem2016a}, which is an implementation of the Lax-Wendroff method in Python, to implement a model of the MCA and its first bifurcation. All simulation parameters are listed in \autoref{tab:simulation}. The MCA radius was taken from \cite{Cousins2014} and following their estimate that generally the length of an artery is $50 \cdot R_u$ lengths were calculated accordingly. The radii of the daughter vessels were estimated using a scaling factor of 0.91, also obtained from \cite{Cousins2014}. The length of the right daughter vessel was shortened slightly to avoid reflective waves cancelling one another out, as also done in \cite{Kolachalama2007}. A three-element Windkessel (3WK) model is used at the outlet whose parameters were obtained from \cite{Olufsen2002}.
 
 \begin{figure}
 \centerline{\includegraphics{figures/inlet.png}}
