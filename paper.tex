@@ -157,7 +157,7 @@ Elasticity of the artery wall is modelled via the quantity $f(r_0) = 4Eh/(3r_0)$
 \begin{equation}
   \frac{Eh}{r_0} = k_1 \exp \left( k_2 r_0(z) \right) + k_3
 \end{equation}
-with $k_1, k_2, k_3$ constants \cite{Olufsen2000}. To derive \eqref{eq:conservation} it was necessary to make assumptions about the velocity profile of blood flow through an artery. Blood flow is considered pulsatile laminar and vessels are considered slightly tapered, therefore the velocity profile is assumed to be mostly flat with a thin boundary layer $\delta_b = (\nu T/(2\pi))^{0.5}$, such that $\delta_b \ll R(z,t)$ \cite{Olufsen2000}.
+with $k_1, k_2, k_3$ constants \cite{Olufsen2000}. To derive \eqref{eq:conservation} it was necessary to make assumptions about the velocity profile of blood flow through an artery. Blood flow is considered pulsatile laminar and vessels are considered slightly tapered, therefore the velocity profile is assumed to be mostly flat with a thin boundary layer $\delta_b = (\nu T/(2\pi))^{0.5}$, such that $\delta_b \ll R(z,t)$ and $\text{Re} \approx 200$ \cite{Olufsen2000}.
 
 \begin{table}
 \center
@@ -201,6 +201,9 @@ MCA simulations were run for four cardiac cycles to allow the system to settle. 
 \section{Perivascular Drainage through the MCA}
 
 In the previous sections the models governing blood flow through the MCA and ISF flow through the artery wall have been introduced. Here, the results of the previous sections are coupled and used to calculate ISF flow through the BM with and without a valve mechanism to show its necessity to achieve net reverse drainage. At the same time it is shown that blood pressure driven perivascular drainage is far too slow to provide any meaningful flow, thereby disproving the popular hypothesis that arterial pulsations provide the major driving force for perivascular drainage.
+
+The numerical model of the MCA was run over four heartbeats to ensure convergence of the results. A human heartbeat lasts \SI{0.85}{\second} and the total simulation time was \SI{3.4}{\second}
+
 
 \begin{figure}
 \centerline{\includegraphics{figures/bm_pressure.png}}
