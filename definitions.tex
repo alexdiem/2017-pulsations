@@ -1,0 +1,68 @@
+%% ----------------------------------------------------------------
+%% Definitions.tex
+%% ---------------------------------------------------------------- 
+\newcommand{\BibTeX}{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+%% People
+\newcounter{address}
+\setcounter{address}{1}
+\renewcommand{\theaddress}{\textsuperscript{\fnsymbol{address}}}
+\newcommand{\address}[1]{\refstepcounter{address}\theaddress#1\\}
+\newcommand{\Name}[3]{\texorpdfstring{\href{mailto:#3}{#2}#1}{#2}\xspace}
+
+%% Abbreviations
+\newcommand{\ie}{i.~e.\ }
+\newcommand{\eg}{e.~g.\ }
+\newcommand{\wrt}{w.~r.~t.\ }
+\newcommand{\etal}{\textit{et al.}\xspace}
+\newcommand{\Ab}{A\textbeta\xspace}
+\newcommand{\Abi}{A\textbeta_{1-42}\xspace}
+\newcommand{\Abs}{A\textbeta_{1-40}\xspace}
+
+%% Maths
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\beqs}{\begin{gather}}
+\newcommand{\eeqs}{\end{gather}}
+\newcommand{\dd}{\partial}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\velf}{\boldsymbol{u}_f}
+\newcommand{\vels}{\boldsymbol{u}_s}
+\newcommand{\vareps}{\varepsilon}
+\newcommand{\q}{\boldsymbol{q}}
+\newcommand{\vel}{\boldsymbol{u}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\hatz}{\hat{z}}
+\newcommand{\hatt}{\hat{t}}
+
+%% Stress tensor
+\newcommand{\taurr}{\tau_{rr}}
+\newcommand{\taurt}{\tau_{r\theta}}
+\newcommand{\tautt}{\tau_{\theta\theta}}
+\newcommand{\tauzz}{\tau_{zz}}
+\newcommand{\taurz}{\tau_{rz}}
+\newcommand{\taurrl}{\tau_{rr,0}}
+\newcommand{\taurtl}{\tau_{r\theta,0}}
+\newcommand{\tauttl}{\tau_{\theta\theta,0}}
+\newcommand{\tauzzl}{\tau_{zz,0}}
+\newcommand{\taurzl}{\tau_{rz,0}}
+\newcommand{\taurre}{\tau_{rr,1}}
+\newcommand{\taurte}{\tau_{r\theta,1}}
+\newcommand{\tautte}{\tau_{\theta\theta,1}}
+\newcommand{\tauzze}{\tau_{zz,1}}
+\newcommand{\taurze}{\tau_{rz,1}}
+
+%% Strain tensor
+\newcommand{\err}{e_{rr}}
+\newcommand{\ert}{e_{r\theta}}
+\newcommand{\ett}{e_{\theta\theta}}
+\newcommand{\ezz}{e_{zz}}
+\newcommand{\erz}{e_{rz}}
+
+%% Stress functions
+\newcommand{\Airy}{\mathcal{A}}
+\newcommand{\Love}{\mathcal{L}}
+
+%% Figures
+\newcommand{\onefig}[3]{\begin{figure}\center\includegraphics[width=\linewidth]{#1}\caption{#2}\label{#3}\end{figure}}
+\newcommand{\onefighalf}[3]{\begin{figure}\center\includegraphics[width=0.5\linewidth]{#1}\caption{#2}\label{#3}\end{figure}}
