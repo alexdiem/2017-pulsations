@@ -96,12 +96,12 @@ Because the BM thickness is much smaller than the vessel length it is possible, 
 \beq
 \frac{\dd}{\dd t} \left( R_i(z,t) \cdot h(z,t) \right) = \frac{\dd}{\dd z} \left( R_i(z,t) \cdot h(z,t) \cdot K(p_{z}) \cdot p_{z} \right),\label{eq:pvs_model}
 \eeq
-which describes the evolution of the BM thickness and can be solved using a finite difference approximation. Consider an infinitesimally small volume of BM $dV = 2\pi \cdot R_i(z,t) \cdot h(z,t) \cdot dz$. Then the difference between the flux into and out of the element $dV$ is equal to $\dd (dV)/ \dd t$, which can be written as
+which describes the evolution of the BM thickness and can be solved using a finite difference approximation. For a detailed derivation see Supplementary Information 1. Another method to arrive at the same equation is derived by considering an infinitesimally small volume of BM $dV = 2\pi \cdot R_i(z,t) \cdot h(z,t) \cdot dz$. Then the difference between the flux into and out of the element $dV$ is equal to $\dd (dV)/ \dd t$, which can be written as
 \begin{align}
 2\pi \frac{\dd}{\dd t} \left( R_i(z,t) \cdot h(z,t) \right) &= \nonumber \\ 
 2\pi \cdot R_i(z,t) \cdot h(z,t) & \cdot q(z,t) - 2\pi \cdot R_i(z + dz,t) \cdot h(z + dz,t) \cdot q(z + dz,t),
 \end{align}
-which is equal to the model equation \eqref{eq:pvs_model}. For a detailed derivation see Supplementary Information 1. The pressure $p(z,t)$ and the displacement of the BM wall $R_i(z,t)$ are, to a very good approximation, determined solely by the arterial pressure (\ie almost independent of the BM flow), see Supplementary Information 2 for more details. $R_i(z,t)$ and $p_z$ can be obtained from a numerical artery model described in the next section. To model the protein valve that is being proposed here $K(p_z)$ is defined as a step function
+which is equal to the model equation \eqref{eq:pvs_model}. The pressure $p(z,t)$ and the displacement of the BM wall $R_i(z,t)$ are, to a very good approximation, determined solely by the arterial pressure (\ie almost independent of the BM flow), see Supplementary Information 2 for more details. $R_i(z,t)$ and $p_z$ can be obtained from a numerical artery model described in the next section. To model the protein valve that is being proposed here $K(p_z)$ is defined as a step function
 \begin{equation}
   K(p_z) = \begin{cases}
     K_0 & p_z > 0\\
@@ -192,7 +192,7 @@ At the inlet flux is prescribed directly. Patient-specific flow velocity measure
 
 \begin{figure}
 \centerline{\includegraphics{figures/mca.png}}
-\caption{Flux (a) and pressure (b) in the MCA. Simulations were performed using the VaMpy Python package \cite{Diem2016a} and the simulation parameters are listed in \autoref{tab:parameter}. Wall stiffness is high in small blood vessels, therefore pressure gradients in time are steep.\label{fig:mca}}
+\caption{Flux (a) and pressure (b) in the MCA. Simulations were performed using the VaMpy Python package \cite{Diem2016a} and the simulation parameters are listed in Table~\ref{tab:simulation}. Wall stiffness is high in small blood vessels, therefore pressure gradients in time are steep.\label{fig:mca}}
 \end{figure}
 
 MCA simulations were run for four cardiac cycles to allow the system to settle. \autoref{fig:mca} shows flow and pressure in the MCA. Because the radius of the MCA is very small its wall stiffness is high. Pressure gradients in time are therefore steep. This data provides the basis for estimating perivascular drainage through the cerebral vasculature.
@@ -200,10 +200,19 @@ MCA simulations were run for four cardiac cycles to allow the system to settle. 
 
 \section{Perivascular Drainage through the MCA}
 
-In the previous sections the models governing blood flow through the MCA and ISF flow through the artery wall have been introduced. Here, the results of the previous sections are coupled and used to calculate ISF flow through the BM with and without a valve mechanism to show its necessity to achieve net reverse drainage. At the same time it is shown that blood pressure driven perivascular drainage is far too slow to provide any meaningful flow, thereby disproving the popular hypothesis that arterial pulsations provide the major driving force for perivascular drainage.
+In the previous sections the models governing blood flow through the MCA and ISF flow through the artery wall have been introduced. Here, the results of the previous sections are coupled and used to calculate ISF flow through the BM with and without a valve mechanism to show its necessity to achieve net reverse drainage. At the same time it is shown that blood pressure driven perivascular drainage is far too slow to provide any meaningful flow, thereby disproving the popular hypothesis that arterial pulsations provide the major driving force for perivascular drainage. The numerical model of the MCA was run over four heartbeats to ensure convergence of the results. An averate human heartbeat lasts \SI{0.85}{\second} and the total simulation time was \SI{3.4}{\second} (see Table~\ref{tab:simulation}). In the results presented here only the final heartbeat is shown.
 
-The numerical model of the MCA was run over four heartbeats to ensure convergence of the results. A human heartbeat lasts \SI{0.85}{\second} and the total simulation time was \SI{3.4}{\second}
+\begin{figure}
+\centerline{\includegraphics{figures/Ri.png}}
+\caption{Displacement of the artery wall due to the pressure pulse in the MCA. The displacement is calculated from the linear elasticity approximation derived in Supplementary Information 2. The input function $R_i(z,t)$ to the BM model equation \eqref{eq:pvs_model} is obtained by adding the radius at rest $a$ (see geometry depiction in Figure~\ref{fig:pvs_model}).\label{fig:ri}}
+\end{figure}
 
+\begin{figure}
+\centerline{\includegraphics{figures/h.png}}
+\caption{BM width as calculated using the BM model equation \eqref{eq:pvs_model}. The changes in BM width are very small around the initial width of \SI{200}{\nano\metre}.\label{fig:h}}
+\end{figure}
+
+Figure~\ref{fig:ri} shows the displacement of the artery wall due to the pressure pulse. To caluculate the width of the BM using the model equation \eqref{eq:pvs_model}, the input function $R_i(z,t)$ is determined by adding the radius at rest $a$ to the wall displacement as depicted in Figure~\ref{fig:pvs_model}. Figure~\ref{fig:h} shows the width of the BM $h(z,t)$ as calculated from \eqref{eq:pvs_model}. The BM width only varies by $\pm \SI{0.01}{\nano\metre}$ around its initial width and thus results in very low flow rates of ISF.
 
 \begin{figure}
 \centerline{\includegraphics{figures/bm_pressure.png}}
@@ -215,7 +224,7 @@ The numerical model of the MCA was run over four heartbeats to ensure convergenc
 \caption{ISF velocity inside the BM of the MCA with (a) and without a valve mechanism (b) at $r = r_0 + 0.5h$. The average flow velocity with a valve mechanism is \SI{-3.54e-6}{\micro\metre\per\second} ($K_0/K_1$ = 0.01), while without a valve mechanism it is \SI{7.91e-4}{\micro\metre\per\second}. A negative value indicates net reverse flow, confirming that a valve mechanism is required to drive flow in the reverse direction of the blood. The expected magnitude of drainage is \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}.\label{fig:bm_velocity}}
 \end{figure}
 
-ISF pressure inside the BM (at $r = r_0 + 0.5h$) is shown in \autoref{fig:bm_pressure}. Velocity wth and without a valve mechanism are shown in \autoref{fig:bm_velocity}. The results show that a valve mechanism is required to drive perivascular drainage in the reverse direction of the blood flow with an average flow velocity of \SI{-3.54e-6}{\micro\metre\per\second} for a ratio of $K_0/K_1 = 0.01$, while it is \SI{7.91e-4}{\micro\metre\per\second}. While the results confirm the necessity of a strong valve mechanism under pulse driven flow they also indicate that arterial pulsations are not strong enough to drive perivascular drainage. Drainage velocity is fastest without a valve mechanism (and then it is in the wrong direction), but even in that case it is four orders of magnitude slower than the expected value of \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}. The valve mechanism only guarantees net reverse drainage for a permeability ratio $K_0/K_1 < 1.6e-2$.
+ISF pressure inside the BM (at $r = r_0 + 0.5h$) is shown in \autoref{fig:bm_pressure}. Velocity wth and without a valve mechanism are shown in \autoref{fig:bm_velocity}. The results show that a valve mechanism is required to drive perivascular drainage in the reverse direction of the blood flow with an average flow velocity of \SI{-3.54e-6}{\micro\metre\per\second} for a ratio of $K_0/K_1 = 0.01$, while it is \SI{7.91e-4}{\micro\metre\per\second}. While the results confirm the necessity of a strong valve mechanism under pulse driven flow they also indicate that arterial pulsations are not strong enough to drive perivascular drainage. Drainage velocity is fastest without a valve mechanism (and then it is in the wrong direction), but even in that case it is four orders of magnitude slower than the expected value of \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}. The valve mechanism only guarantees net reverse drainage for a permeability ratio $K_0/K_1 < \SI{1.6e-2}{}$.
 
 \begin{figure}
 \centerline{\includegraphics{figures/valve_test.png}}
