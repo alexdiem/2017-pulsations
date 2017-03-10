@@ -34,7 +34,7 @@ annotate('artery wall', (mid,0.7), xycoords='data', xytext=(-22, 0), textcoords=
 annotate('ISF flow', (mid,1.15), xycoords='data', xytext=(-17,0.05), textcoords='offset points')
 annotate('artery wall', (mid,1.4), xycoords='data', xytext=(-22,0), textcoords='offset points')
 annotate('blood flow', (mid,0.2), xycoords='data', xytext=(-20,0), textcoords='offset points')
-annotate(r'$h(z,t)$', (50,1.11), xycoords='data', xytext=(5,0), textcoords='offset points')
+annotate(r'$h_\textrm{bm}(z,t)$', (50,1.11), xycoords='data', xytext=(5,0), textcoords='offset points')
 
 arrow(arrow_start, 0.15, 40, 0, head_width=0.05, head_length=3, color='k')
 arrow(arrow_start+40, 1.1, -40, 0, head_width=0.05, head_length=3, color='k')

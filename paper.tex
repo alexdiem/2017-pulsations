@@ -70,14 +70,18 @@ We propose a model of lymphatic drainage from the brain via the cerebral BM base
 
 The BM consists of a complex matrix of proteins (extracellular matrix, ECM) that can be interpreted as a porous medium through which soluble metabolites drain via the ISF. We model flow through this medium, in the standard fashion, by Darcy's law in a 2D cylindrical coordinate system. Darcy's law states that the flux $\q$ is related to the fluid pressure gradient $\boldsymbol{\nabla} p$ by
 \beq\label{eq:darcy}
-  \q = -K(p_z) \boldsymbol{\nabla} p
+  \q = -\frac{k}{\mu} \boldsymbol{\nabla} p
 \eeq
-where $K(p_z)$\footnote{Note that the permeability $K$ used here is the ratio of the intrinsic permeability $k$ of the ECM to the viscosity $\mu$ of ISF, that is $K = k / \mu$} is the pressure gradient dependent permeability of the ECM. We allow the permeability $K$ to be a function of the axial component of the ISF pressure gradient $\partial p(z,t) / \partial z = p_z(z,t)$. In order to obtain a net flux up the vessel, counter to the blood flow, we require this function to be increasing in $p_z$, representing the notion that it is harder to push a flow in the positive $z$-direction ($p_z<0$ and $K(p_z)$ small) than in the negative $z$-direction ($p_z>0$ and $K(p_z)$ large).
+where $k$ is the intrinsic permeability of the ECM and $\mu$ is the viscosity of ISF. Since ISF flows up the artery, counter to the direction of arterial pulsations, a valve-like mechanism in the ECM is required if arterial pulsations are indeed the motive force for this flow. This valve-like property of the ECM can be modelled by a Darcy flow \eqref{eq:darcy}, in which the intrinsic permeability is a function of the axial pressure gradient $\dd p / \dd z$ along the vessel. On assuming an artery aligned along the $z$-axis with net blood flow and arterial pulsations propagating the positive $z$-direction we model valve-like properties of the ECM in the BM by a pressure gradient dependent permeability
+\beq
+k = \mu K(p_z) \qquad \text{where } p_z = \frac{\dd p}{\dd z}.
+\eeq
+In order to obtain a net flux up the vessel, counter to the blood flow, we require this function to be increasing in $p_z$, representing the notion that it is harder to push a flow in the positive $z$-direction ($p_z < 0$ and $K(p_z)$ small) than in the negative $z$-direction ($p_z \geq 0$ and $K(p_z)$ large).
 
-Because of the boundary conditions used we will continue working in terms of the fluid velocity $\vel$, which is related to $\q$ by the linear relationship $\vel = \gamma \, \q$, where $\gamma$ is the porosity of the medium. The governing equations in cylindrical coordinates are thus
+The governing equations in cylindrical coordinates are thus
 \begin{gather}
-  u \vect{e_z} + v \vect{e_r} = - \gamma K(p_z) \left( \vect{e_z} p_z + \vect{e_r} p_r \right) \label{eq:darcy_velocity}\\
-  u_z + \frac{1}{r} \frac{\dd}{\dd r} \left( r v \right) = 0 \label{eq:continuity},
+  \boldsymbol{q} = q_1 \vect{e_z} + q_2 \vect{e_r} = - \gamma K(p_z) \left( \vect{e_z} p_z + \vect{e_r} p_r \right) \label{eq:darcy_velocity}\\
+  \frac{\dd q_1}{\dd z} + \frac{1}{r} \frac{\dd}{\dd r} \left( r q_2 \right) = 0 \label{eq:continuity},
 \end{gather}
 where $\vect{e_z}$ and $\vect{e_r}$ describe the unit vectors in the $z$ and $r$ direction. The continuity of velocity is given in \eqref{eq:continuity}.
 
@@ -92,23 +96,23 @@ To determine the boundary conditions of the system consider the geometry in Figu
 \eeq
 and analogously for $R_o(z,t)$.
 
-Because the BM thickness is much smaller than the vessel length it is possible, on using the lubrication approximation, to derive a 1D model (in $z$) for the BM thickness $h(z,t)$; this takes the form
+Because the BM thickness is much smaller than the vessel length it is possible, on using the lubrication approximation, to derive a 1D model (in $z$) for the BM thickness $h_\textrm{bm}(z,t)$; this takes the form
 \beq
-\frac{\dd}{\dd t} \left( R_i(z,t) \cdot h(z,t) \right) = \frac{\dd}{\dd z} \left( R_i(z,t) \cdot h(z,t) \cdot K(p_{z}) \cdot p_{z} \right),\label{eq:pvs_model}
+\frac{\dd}{\dd t} \left( \gamma R_i(z,t) \cdot h_\textrm{bm}(z,t) \right) = \frac{\dd}{\dd z} \left( R_i(z,t) \cdot h_\textrm{bm}(z,t) \cdot K(p_{z}) \cdot p_{z} \right),\label{eq:pvs_model}
 \eeq
-which describes the evolution of the BM thickness and can be solved using a finite difference approximation. For a detailed derivation see Supplementary Information 1. Another method to arrive at the same equation is derived by considering an infinitesimally small volume of BM $dV = 2\pi \cdot R_i(z,t) \cdot h(z,t) \cdot dz$. Then the difference between the flux into and out of the element $dV$ is equal to $\dd (dV)/ \dd t$, which can be written as
+where $\gamma$ is the fluid volume fraction in the BM. Equation \eqref{eq:pvs_model} describes the evolution of the BM thickness and can be solved using a finite difference approximation. For a detailed derivation see Supplementary Information 1. Another method to arrive at the same equation is derived by considering an infinitesimally small volume of BM $dV = 2\pi \cdot R_i(z,t) \cdot h_\textrm{bm}(z,t) \cdot dz$. Then the difference between the flux into and out of the element $dV$ is equal to $\dd (dV)/ \dd t$, which can be written as
 \begin{align}
-2\pi \frac{\dd}{\dd t} \left( R_i(z,t) \cdot h(z,t) \right) &= \nonumber \\ 
-2\pi \cdot R_i(z,t) \cdot h(z,t) & \cdot q(z,t) - 2\pi \cdot R_i(z + dz,t) \cdot h(z + dz,t) \cdot q(z + dz,t),
+2\pi \frac{\dd}{\dd t} \left( \gamma R_i(z,t) \cdot h_\textrm{bm}(z,t) \right) &= \nonumber \\ 
+2\pi \cdot \gamma R_i(z,t) \cdot h_\textrm{bm}(z,t) & \cdot q(z,t) - 2\pi \cdot \gamma R_i(z + dz,t) \cdot h_\textrm{bm}(z + dz,t) \cdot q(z + dz,t),
 \end{align}
 which is equal to the model equation \eqref{eq:pvs_model}. The pressure $p(z,t)$ and the displacement of the BM wall $R_i(z,t)$ are, to a very good approximation, determined solely by the arterial pressure (\ie almost independent of the BM flow), see Supplementary Information 2 for more details. $R_i(z,t)$ and $p_z$ can be obtained from a numerical artery model described in the next section. To model the protein valve that is being proposed here $K(p_z)$ is defined as a step function
 \begin{equation}
   K(p_z) = \begin{cases}
-    K_0 & p_z > 0\\
-    K_1 & p_z \leq 0
+    K_0 & p_z < 0\\
+    K_1 & p_z \geq 0,
   \end{cases}
 \end{equation}
-with $K_1 > K_0$.
+chosen such that $K_1 > K_0 > 0$ so that the BM is more permeable to flow of ISF in the negative $z$-direction than in the positive one.
 
 
 \section{Numerical Model of a Straight Arterial Section}
@@ -141,7 +145,7 @@ $L$ & \SI{6.4}{\centi\metre} & length\\
 \end{tabular}
 \end{table}
 
-In order to obtain the input functions $R_i(z,t)$ and $p_z$ for the analytical model developed in the previous section, a section of human MCA was modelled as a 1D axisymmetric tube in a cylindrical coordinate system with cross-sectional lumen area $A(z,t)$ and flux $q(z,t)$ using the Python package VaMpy \cite{Diem2016a}. The geometry parameters are listed in \autoref{tab:geometry}. Following the derivations in \cite{Olufsen2000,Diem2016} arteries are represented by the conservation law
+In order to obtain the input functions $R_i(z,t)$ and $p_z$ for the analytical model developed in the previous section, a section of human MCA was modelled as a 1D axisymmetric tube in a cylindrical coordinate system with cross-sectional lumen area $A(z,t)$ and flux $q(z,t)$ using the Python package VaMpy \cite{Diem2016a}. The geometry parameters are listed in \autoref{tab:geometry}. Following the derivations in \cite{Olufsen2000,Diem2016} blood flow through arteries is represented by the conservation law
 \begin{equation}
   \frac{\dd \boldsymbol{U}}{\dd t} + \frac{\dd \boldsymbol{F}}{\dd z} = \boldsymbol{S}, \label{eq:conservation}
 \end{equation}
@@ -153,11 +157,17 @@ where
     &\left( 2 \sqrt{A(z,t)} \left( \sqrt{\pi} f(r_0) + \sqrt{A_0(z)} \frac{df(r_0)}{dr_0 } \right) - A(z,t) \frac{df(r_0)}{dr_0} \right) \frac{dr_0(z)}{dz}.
   \end{split}
 \end{gather*}
-Elasticity of the artery wall is modelled via the quantity $f(r_0) = 4Eh/(3r_0)$. The relationship $Eh/r_0$ is based on compliance estimates
+The equation is solved for cross-sectional area $A(z,t)$ of the vessel lumen and flux $q(z,t)$ where $R(z,t) = q(z,t)/A(z,t)$ is the lumen radius, $\delta_b$ is the boundary layer thickness and $\text{Re}$ is the Reynolds number. Elasticity of the artery wall is modelled via the quantity $f(r_0) = 4Eh/(3r_0)$, where $E$ is the Young's modulus and $h$ is the wall thickness. The relationship $Eh/r_0$ is based on compliance estimates
 \begin{equation}
   \frac{Eh}{r_0} = k_1 \exp \left( k_2 r_0(z) \right) + k_3
 \end{equation}
-with $k_1, k_2, k_3$ constants \cite{Olufsen2000}. To derive \eqref{eq:conservation} it was necessary to make assumptions about the velocity profile of blood flow through an artery. Blood flow is considered pulsatile laminar and vessels are considered slightly tapered, therefore the velocity profile is assumed to be mostly flat with a thin boundary layer $\delta_b = (\nu T/(2\pi))^{0.5}$, such that $\delta_b \ll R(z,t)$ and $\text{Re} \approx 200$ \cite{Olufsen2000}.
+with $k_1, k_2, k_3$ constants \cite{Olufsen2000}. Blood pressure $p(z,t)$ is related to $A(z,t)$ and $f(r_0)$ via the state equation
+\beq
+  p(z,t) - p_0 = f(r_0) \left( 1 - \frac{A_0(z)}{A(z,t)} \right),
+\eeq
+where $p_0$ is the diastolic pressure and $A_0(z)$ is the lumen radius at rest. Blood pressure provides the basis for determining ISF pressure inside the BM via the calculations in Supplementary Information 2.
+
+To derive \eqref{eq:conservation} it was necessary to make assumptions about the velocity profile of blood flow through an artery. Blood flow is considered pulsatile laminar and vessels are considered slightly tapered, therefore the velocity profile is assumed to be mostly flat with a thin boundary layer $\delta_b = (\nu T/(2\pi))^{0.5}$, such that $\delta_b \ll R(z,t)$ and $\text{Re} \approx 200$ \cite{Olufsen2000}.
 
 \begin{table}
 \center
@@ -185,10 +195,10 @@ This system of equations can be solved numerically using Richtmyer's two-step ve
 
 \begin{figure}
 \centerline{\includegraphics{figures/inlet.png}}
-\caption{Inlet function for MCA simulations obtained from patient-specific measurements. The final ten peaks of the velocity time series were averaged in the Fourier space and adjusted such that its range of values aligns with those reported in \cite{Olufsen2002}. The resulting inlet function is smooth and serves as the inlet boundary condition for the MCA simulations using VaMpy \cite{Diem2016a}.\label{fig:inlet}}
+\caption{Inlet function for MCA simulations obtained from patient-specific measurements used to represent one period of \SI{0.85}{\second} of the pulse wave. The final ten peaks of the velocity time series were averaged in the Fourier space and adjusted such that its range of values aligns with those reported in \cite{Olufsen2002}. The resulting inlet function is smooth and serves as the inlet boundary condition for the MCA simulations using VaMpy \cite{Diem2016a}.\label{fig:inlet}}
 \end{figure}
 
-At the inlet flux is prescribed directly. Patient-specific flow velocity measurements were collected from the MCA of a healthy adult male using Doppler Sonography ultrasound. The velocity data was adjusted to obtain volumetric flux values within the range reported in \cite{Olufsen2002}. To obtain a smooth inlet function the final ten peaks of the time series were averaged in the Fourier space. The resulting inlet boundary condition is shown in \autoref{fig:inlet}.
+At the inlet the flux is prescribed directly. Patient-specific flow velocity measurements were collected from the MCA of a healthy adult male using Doppler Sonography ultrasound. The velocity data was adjusted to obtain volumetric flux values within the range reported in \cite{Olufsen2002}. To obtain a smooth inlet function the final ten peaks of the time series were averaged in the Fourier space. The resulting inlet boundary condition is shown in \autoref{fig:inlet}.
 
 \begin{figure}
 \centerline{\includegraphics{figures/mca.png}}
@@ -208,11 +218,11 @@ In the previous sections the models governing blood flow through the MCA and ISF
 \end{figure}
 
 \begin{figure}
-\centerline{\includegraphics{figures/h.png}}
-\caption{BM width as calculated using the BM model equation \eqref{eq:pvs_model}. The changes in BM width are very small around the initial width of \SI{200}{\nano\metre}.\label{fig:h}}
+\centerline{\includegraphics{figures/h_dh.png}}
+\caption{BM width $h_\textrm{bm}(z,t)$ at several time points during the cardiac cycle (a) and its gradient along the $z$-axis at the same time points (b). Pressure pulse driven variations of the BM width are small compared to the initial width of \SI{200}{\nano\metre} and thus flow through the BM is slow.\label{fig:h}}
 \end{figure}
 
-Figure~\ref{fig:ri} shows the displacement of the artery wall due to the pressure pulse. To caluculate the width of the BM using the model equation \eqref{eq:pvs_model}, the input function $R_i(z,t)$ is determined by adding the radius at rest $a$ to the wall displacement as depicted in Figure~\ref{fig:pvs_model}. Figure~\ref{fig:h} shows the width of the BM $h(z,t)$ as calculated from \eqref{eq:pvs_model}. The BM width only varies by $\pm \SI{0.01}{\nano\metre}$ around its initial width and thus results in very low flow rates of ISF.
+Figure~\ref{fig:ri} shows the displacement of the artery wall due to the pressure pulse. To caluculate the width of the BM using the model equation \eqref{eq:pvs_model}, the input function $R_i(z,t)$ is the sum of the radius at rest and the wall displacement, as depicted in Figure~\ref{fig:pvs_model}. Figure~\ref{fig:h}a shows the width of the BM $h_\textrm{bm}(z,t)$ as calculated from \eqref{eq:pvs_model} over the length of the artery at a number of time points, while Figure~\ref{fig:h}b shows $\partial h_\textrm{bm}(z,t)/ \partial z$ for the same time points. The BM width only varies by approximately $\pm \SI{0.01}{\nano\metre}$ around its initial width and thus results in very low flow rates of ISF.
 
 \begin{figure}
 \centerline{\includegraphics{figures/bm_pressure.png}}
@@ -220,16 +230,11 @@ Figure~\ref{fig:ri} shows the displacement of the artery wall due to the pressur
 \end{figure}
 
 \begin{figure}
-\centerline{\includegraphics{figures/bm_velocity.png}}
-\caption{ISF velocity inside the BM of the MCA with (a) and without a valve mechanism (b) at $r = r_0 + 0.5h$. The average flow velocity with a valve mechanism is \SI{-3.54e-6}{\micro\metre\per\second} ($K_0/K_1$ = 0.01), while without a valve mechanism it is \SI{7.91e-4}{\micro\metre\per\second}. A negative value indicates net reverse flow, confirming that a valve mechanism is required to drive flow in the reverse direction of the blood. The expected magnitude of drainage is \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}.\label{fig:bm_velocity}}
-\end{figure}
-
-ISF pressure inside the BM (at $r = r_0 + 0.5h$) is shown in \autoref{fig:bm_pressure}. Velocity wth and without a valve mechanism are shown in \autoref{fig:bm_velocity}. The results show that a valve mechanism is required to drive perivascular drainage in the reverse direction of the blood flow with an average flow velocity of \SI{-3.54e-6}{\micro\metre\per\second} for a ratio of $K_0/K_1 = 0.01$, while it is \SI{7.91e-4}{\micro\metre\per\second}. While the results confirm the necessity of a strong valve mechanism under pulse driven flow they also indicate that arterial pulsations are not strong enough to drive perivascular drainage. Drainage velocity is fastest without a valve mechanism (and then it is in the wrong direction), but even in that case it is four orders of magnitude slower than the expected value of \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}. The valve mechanism only guarantees net reverse drainage for a permeability ratio $K_0/K_1 < \SI{1.6e-2}{}$.
-
-\begin{figure}
 \centerline{\includegraphics{figures/valve_test.png}}
 \caption{ISF velocity at $r = r_0 + xh$. Drainage occurs in the reverse direction of the blood flow for $K_0/K_1 = \SI{1.6e-2}{}$ and is fastest at $r = r_0 + 0.1h$. The fastest net reverse drainage is \SI{-7.35e-6}{\micro\metre\per\second}, which is six orders of magnitude smaller than the expected value of \SI{-8.33}{\micro\metre\per\second}.\label{fig:valve_test}}
 \end{figure}
+
+ISF pressure inside the BM (at $r = r_0 + 0.5h$) is shown in \autoref{fig:bm_pressure}. The results show that a valve mechanism is required to drive perivascular drainage in the reverse direction of the blood flow with an average flow velocity of \SI{-3.54e-6}{\micro\metre\per\second} for a ratio of $K_0/K_1 = 0.01$, while it is \SI{7.91e-4}{\micro\metre\per\second}. While the results confirm the necessity of a strong valve mechanism under pulse driven flow they also indicate that arterial pulsations are not strong enough to drive perivascular drainage. Drainage velocity is fastest without a valve mechanism (and then it is in the wrong direction), but even in that case it is four orders of magnitude slower than the expected value of \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}. The valve mechanism only guarantees net reverse drainage for a permeability ratio $K_0/K_1 < \SI{1.6e-2}{}$, where $K_1$ is chosen such that $k = \SI{1e-10}{\square\centi\metre}$ is consistent with values for other tissues in the body and $\mu = \SI{1.5e-3}{\pascal\second}$ \cite{Heppell2013}.
 
 
 \section{Discussion and Conclusion}
@@ -247,7 +252,7 @@ In conclusion, this study indicates that under physiological conditions arterial
 % ----------------------------------------------------------------------------
 \section*{Acknowledgements}
 
-This work was supported by an EPSRC Doctoral Training Centre grant (EP/G03690X/1) and EPSRC Doctoral Training Partnership grant (EP/N509747/1). The authors thank Tony Birch for carrying out the middle cerebral artery flow velocity measurements and Roy O. Weller for his continued advice and encouragement.
+This work was supported by an EPSRC Doctoral Training Centre grant (EP/G03690X/1) and EPSRC Doctoral Training Partnership grant (EP/N509747/1). The authors thank Tony Birch for carrying out the middle cerebral artery flow velocity measurements, Roxana Aldea for our discussions on the appropriate equations for artery wall elasticity and Roy O. Weller for his continued advice and encouragement.
 
 % ----------------------------------------------------------------------------
 % Appendix
