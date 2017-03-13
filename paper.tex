@@ -16,6 +16,8 @@
 \usepackage{xspace}
 \usepackage{textgreek}
 
+\DeclareSIUnit\Molar{\textsc{M}}
+
 \begin{document}
 
 \input{definitions}
@@ -31,6 +33,7 @@
 \author[1,2]{Alexandra K. Diem}
 \author[2]{Neil W. Bressloff}
 \author[3]{Roxana O. Carare}
+\author[3]{Matthew MacGregor Sharp}
 \author[4]{Giles Richardson}
 \affil[1]{Institute for Complex Systems Simulation, University of Southampton, Southampton SO17 1BJ, UK}
 \affil[2]{Computational Engineering and Design, Faculty of Engineering \& the Environment, University of Southampton, Southampton SO17 1BJ, UK}
@@ -60,10 +63,15 @@ Dementia, a term often used synonymously with Alzheimer's disease (AD), is a sym
 
 In order to process metabolites, the brain requires a lymphatic system that transports waste products to the lymph nodes, where they are decomposed. While the rest of the body possesses a dedicated network of lymphatic vessels these do not exist in the brain \cite{Weller2010}. There is ample evidence that the basement membranes (BM) in the walls of cerebral arteries provide the clearance pathway for interstitial fluid (ISF) towards the surface of the brain, also referred to as perivascular drainage \cite{Weller2010,Carare2008,Hawkes2011,Morris2014}. Because it provides the pathways for perivascular drainage, the BM is also referred to as perivascular space (PVS) in this context. It is important not to confuse this PVS with the Virchow-Robin spaces, which are also often referred to as perivascular (or ``paravascular'') spaces. However, Virchow-Robin spaces are virtual spaces and have no role in \Ab drainage. Additionally, the BM does not actually constitute a space, but rather a fluid-filled protein matrix. Our understanding of the mechanism that drives perivascular drainage through the BM is still very limited. The evidence indicates that ISF enters the BM at the capillary level and flows towards the lymph nodes in the neck via cerebral arteries, but not veins. This suggests that ISF flow is driven in the reverse direction of the blood flow, a phenomenon that does not seem very plausible at first sight \cite{Carare2008}.
 
-A widely accepted hypothesis for the driving mechanism of this reverse perivascular drainage of solutes from the brain is that it is driven by arterial pulsations \cite{Weller2009,Carare2008,Hawkes2011,Morris2014,Schley2006,Attems2011,Wang2011,Iliff2012,Asgari2015,Sharp2015,Weller2015a}. In this paper we tested this hypothesis by using a multi-scale modelling approach combining analytical and numerical methods. The BM is modelled as a porous medium using Darcy's law and a lubrication approximation. Flow inside the BM is driven by both the ISF pressure gradient and the deformation of the arterial wall, which are obtained from a numerical model of the middle cerebral artery (MCA). To guarantee reverse drainage (\ie in the opposite direction of the blood flow) a valve mechanism is implemented as a pressure gradient dependent permeablility. It is shown that this valve mechanism is neccesary to achieve net reverse drainage. The results show that this valve mechanism successfully ensures net reverse drainage inside the BM and is neccesary. However, due to the long wavelength of arterial pulsations the pressure gradients inside the BM were found to be too small to drive fluid flow at the expected velocities. The resulting velocity of the model was approximately two orders of magnitude smaller than values obtained experimentally \cite{Carare2008}. Therefore arterial pulsations are concluded to be insufficient to drive perivascular drainage along the BM of cerebral arteries.
+A widely accepted hypothesis for the driving mechanism of this reverse perivascular drainage of solutes from the brain is that it is driven by arterial pulsations \cite{Weller2009,Carare2008,Hawkes2011,Morris2014,Schley2006,Attems2011,Wang2011,Iliff2012,Asgari2015,Sharp2015,Weller2015a}. In this paper we tested this hypothesis by using a multi-scale modelling approach combining analytical and numerical methods. The BM is modelled as a porous medium using Darcy's law and a lubrication approximation. Flow inside the BM is driven by both the ISF pressure gradient and the deformation of the arterial wall, which are obtained from a numerical model of the middle cerebral artery (MCA). To guarantee reverse drainage (\ie in the opposite direction of the blood flow) a valve mechanism is implemented as a pressure gradient dependent permeablility. It is shown that this valve mechanism is neccesary to achieve net reverse drainage. The results show that this valve mechanism successfully ensures net reverse drainage inside the BM and is neccesary. However, due to the long wavelength of arterial pulsations the pressure gradients inside the BM were found to be too small to drive fluid flow at the expected velocities. The resulting velocity of the model was approximately two orders of magnitude smaller than values obtained experimentally \cite{Carare2008}. Therefore arterial pulsations are concluded to be insufficient to drive perivascular drainage along the BM of cerebral arteries. The simulation results are confirmed by an experimental assessment of the effect of pulse modulation in a mouse model, which showed no significant difference in perivascular drainage compare to control mice.
 
 
-\section{Porous medium model of lymphatic drainage in the BM}
+\section{Numerical modelling of perivascular drainage of \Ab}
+
+First, the velocity of perivascular drainage in a pressure-pulse driven scenario is evaluated using computational modelling. An analytical model of the BM was developed, which captures the preference of flow in the reverse direction to the blood flow. Pressure inside the BM is evaluated using a numerical model of blood pressure inside the artery and a stress analysis in the artery wall. These were then used to evaulate the velocity of perivascular drainage through the MCA.
+
+
+\subsection{Porous medium model of lymphatic drainage through the BM}
 \label{sec:diodemodel}
 
 We propose a model of lymphatic drainage from the brain via the cerebral BM based on Darcy's law for flow in porous media. By exploiting the discrepancy of scales between the width of the BM and its length we approximate the flow by a one-dimensional lubrication model (see for example \cite{Ockendon1995}). Furthermore, we allow the permeability of the BM to depend on the pressure gradient of the ISF. Such a pressure gradient dependent permeability could, for instance, model proteins in the BM protein network that have structural properties that allow them to bend easily only in one direction, thereby acting as a valve, and thus provide a higher resistance to flow in the direction of the blood flow. A similar idea has been investigated in \cite{Sharp2015}, where proteins were explicitly modelled as cillia. However, here we model the active component of the BM generically in this model and thus allow for alternative explanations of the phenomenon.
@@ -115,7 +123,7 @@ which is equal to the model equation \eqref{eq:pvs_model}. The pressure $p(z,t)$
 chosen such that $K_1 > K_0 > 0$ so that the BM is more permeable to flow of ISF in the negative $z$-direction than in the positive one.
 
 
-\section{Numerical Model of a Straight Arterial Section}
+\subsection{Numerical Model of a Straight Arterial Section}
 
 \begin{table}
 \center
@@ -208,7 +216,7 @@ At the inlet the flux is prescribed directly. Patient-specific flow velocity mea
 MCA simulations were run for four cardiac cycles to allow the system to settle. \autoref{fig:mca} shows flow and pressure in the MCA. Because the radius of the MCA is very small its wall stiffness is high. Pressure gradients in time are therefore steep. This data provides the basis for estimating perivascular drainage through the cerebral vasculature.
 
 
-\section{Perivascular Drainage through the MCA}
+\subsection{Perivascular Drainage through the MCA}
 
 In the previous sections the models governing blood flow through the MCA and ISF flow through the artery wall have been introduced. Here, the results of the previous sections are coupled and used to calculate ISF flow through the BM with and without a valve mechanism to show its necessity to achieve net reverse drainage. At the same time it is shown that blood pressure driven perivascular drainage is far too slow to provide any meaningful flow, thereby disproving the popular hypothesis that arterial pulsations provide the major driving force for perivascular drainage. The numerical model of the MCA was run over four heartbeats to ensure convergence of the results. An averate human heartbeat lasts \SI{0.85}{\second} and the total simulation time was \SI{3.4}{\second} (see Table~\ref{tab:simulation}). In the results presented here only the final heartbeat is shown.
 
@@ -237,9 +245,68 @@ Figure~\ref{fig:ri} shows the displacement of the artery wall due to the pressur
 ISF pressure inside the BM (at $r = r_0 + 0.5h$) is shown in \autoref{fig:bm_pressure}. The results show that a valve mechanism is required to drive perivascular drainage in the reverse direction of the blood flow with an average flow velocity of \SI{-3.54e-6}{\micro\metre\per\second} for a ratio of $K_0/K_1 = 0.01$, while it is \SI{7.91e-4}{\micro\metre\per\second}. While the results confirm the necessity of a strong valve mechanism under pulse driven flow they also indicate that arterial pulsations are not strong enough to drive perivascular drainage. Drainage velocity is fastest without a valve mechanism (and then it is in the wrong direction), but even in that case it is four orders of magnitude slower than the expected value of \SI{8.33}{\micro\metre\per\second} \cite{Carare2008}. The valve mechanism only guarantees net reverse drainage for a permeability ratio $K_0/K_1 < \SI{1.6e-2}{}$, where $K_1$ is chosen such that $k = \SI{1e-10}{\square\centi\metre}$ is consistent with values for other tissues in the body and $\mu = \SI{1.5e-3}{\pascal\second}$ \cite{Heppell2013}.
 
 
+\section{Experimental assessment of intramural perivascular drainage of \Ab}
+
+In addition to performing simulations to assess the feasibility of blood-pressure driven arterial pulsations providing the main driving mechanism for perivascular drainage through the BM of the cerebral vasculature, mouse model experiments were performed to confirm the results \textit{in vivo}.
+
+
+\subsection{Intracerebral injections}
+
+All mice were kept on a standard 12-hr light/dark cycle and allowed food and water \textit{ad libitum}. All experiments were carried out in accordance with animal care guidelines stipulated by the Animal Care and Use Committee at the University of Southampton and the Home Office (PPL 20/2095).
+
+To minimise the effects of anaesthesia on mouse cardiovascular function, isoflurane was chosen as the anaesthetizing agent. To reduce arterial pulsations, the beta-blocker Atenolol (Ate, \SI{10}{\milli\gram\per\kilo\gram}) was administered intraperitoneally (IP). Mouse vital parameters were monitored throughout the procedure using a MouseOX Plus and an infrared mouse thigh sensor (STARR Life Sciences, Holliston, MA, USA). Thermal regulation was maintained using a heat pad and rectal probe (BASi, West Lafayette, IN, USA). All intracerebral injections were performed using a \SIrange{1}{5}{\micro\litre} Hirschmann microcapillary pipette (Sigma UK) with a tip adjusted to a diameter of $< \SI{50}{\micro\metre}$ using a Sutter P97 Flaming Brown Pipette puller.
+
+Ten week old wild-type C57B16 mice ($n = 4$) were anaesthetized with isoflurane, placed prone on a stereotaxic instrument and secured with head adaptors. Baseline measurements of oxygen saturation, heart rate, breath rate and pulse distention were taken before administering Ate. A volume of \SI{0.5}{\micro\litre} of \Abs HiLyte Fluor 555 (Cambridge Bioscience, UK) was stereotaxically injected into the left hippocampus at a rate of \SI{0.2}{\micro\litre\per\minute} (coordinates from Bregma: $\textrm{AP} = \SI{-1.9}{\milli\metre}$, $\textrm{ML} = \SI{1.5}{\milli\metre}$ and $\textrm{DV} = \SI{-1.7}{\milli\metre}$) \SI{10}{\minute} post Ate injection. Injection pipettes were left \textit{in situ} for \SI{2}{\minute} to prevent reflux. Mice were euthanized \SI{5}{\minute} after withdrawal of the injection pipette through overdose with pento-barbital (\SI{200}{\milli\gram\per\kilo\gram}). Mice were then intracardially perfused with \SI{0.01}{\Molar} phosphate buffered saline (PBS), pH~7.2 followed by \SI{4}{\percent} paraformaldehyde in \SI{0.01}{\Molar} PBS, pH~7.2. Brains were removed, post fixed overnight in fresh fixative and then processed for immunohistochemistry. For controls, ten week old wild-type C57B16 ($n = 3$) were processed following the same method but without administration of Ate.
+
+
+\subsection{Immunohistochemistry}
+
+Brains were cut into \SI{20}{\micro\metre} coronal sections using a freezing microtome (Leica) and the injection site located by examining on a Zeiss Axioskop 2 fitted with a rhodamine filter. Sections of \SI{400}{\micro\metre} and \SI{800}{\micro\metre} thickness both posterior and anterior to the injection site were selected for immunohistochemistry. Sections were blocked in \SI{15}{\percent} goat serum (Sigma 9023) for \SI{1}{\hour} at room temperature (RT). They were then incubated in primary antibodies diluted in \SI{0.01}{\Molar} phosphate buffered saline \SI{0.1}{\percent} triton x100 (PBSt). Primary antibodies comprised rabbit anti-collagen IV (AbCam, ab6586) 1/400 and mouse anti-smooth muscle actin (SMA) FITC conjugated (Sigma F3777) 1/200. Sections were incubated overnight at \SI{4}{\celsius} in a moist chamber. Following washing 3x\SI{10}{\minute} \SI{0.01}{\Molar} PBS sections were incubated in goat anti-rabbit Alexa Fluor$\textregistered$ 633 (ThermoFisher Scientific A-21070) 1/200 PBSt.
+
+
+\subsection{Image analysis}
+
+Images of the whole hippocampus were captured on a Leica SP8 confocal microscope fitted with LASX software in the tile scanning mode with sequential imaging. Once captured, images were exported as TIFF files and uploaded into Adobe Photoshop CS6. An area of hippocampus was drawn extending transversely from CA3 pyramidal cells to the apex of the blades of the granule cell layer and from the ventricle to \textit{stratum oriens} in the superior/inferior axis. \Ab containing vessels were defined according to size and presence of SMA: capillaries had a diameter of $\leq \SI{10}{\micro\metre}$, veins had no SMA and a diameter of $> \SI{10}{\micro\metre}$. The number of vessels was expressed per \SI{}{\square\milli\metre} of hippocampus.
+
+Statistical analysis was performed by an independent t-test, with \SI{95}{\percent} set as confidence interval.
+
+
+\subsection{Results}
+
+\begin{figure}
+  \centerline{\includegraphics{figures/confocal.jpg}}
+  \caption{Caption\label{fig:confocal}}
+\end{figure}
+
+\begin{table}
+  \center
+  \caption{Caption\label{tab:caption}}
+  \begin{tabular}{lcccccc}
+    \toprule
+     & \multicolumn{3}{c}{Atenolol} & \multicolumn{3}{c}{Saline}\\
+    \midrule
+    arteries    & 6.19 & 0.66 & 4 & 7.48  & 2.4  & 3\\
+    veins       & 0.79 & 0.3  & 4 & 0.3   & 0.15 & 3\\
+    capillaries & 0.52 & 0.14 & 4 & 0.6   & 0.3  & 3\\
+    \midrule
+    arteries    & 6.79 & 1.4  & 4 & 15.03 & 5.26 & 3\\
+    veins       & 0.62 & 0.05 & 4 & 1.8   & 1.08 & 3\\
+    capillaries & 0.17 & 0.1  & 4 & 2.34  & 1.55 & 3\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}
+  \centerline{\includegraphics{figures/graph.png}}
+  \caption{Caption\label{fig:graph}}
+\end{figure}
+
+Within \SI{5}{\minute} of injections into the hippocampus, fluorescent \Ab was observed diffusely in the hippocampus and co-localizing with collagen IV in the walls of capillaries and arteries, with very few veins involved in both atenolol-treated and control mice (Figure~\ref{fig:caption} and Table~\ref{tab:confocal}). Application of an independent t-test to the data revealed no significant differences between the saline and atenolol treated mice either anterior or posterior to the injection site (Figure~\ref{fig:graph}).
+
+
 \section{Discussion and Conclusion}
 
-The results show that the valve mechanism as implemented in our analytical model of the BM guarantees net reverse flow inside the BM under physiological blood flow conditions. The valve mechanism is required to be strong, \ie the ratio of $K_0/K_1$ needs to be small. Additionally, the model shows that a valve mechanism is neccessary for net reverse flow to occur within the BM, confirming results from previous studies that did not include a valve mechanism and concluded the existence of some attachment mechanism \cite{Schley2006,Wang2011}. Net drainage additionally depends on the distance of the BM from the artery lumen. The closer the BM is placed to the lumen the faster net reverse drainage is, but variations remain within the same order of magnitude. This is due to the relatively large thickness of cerebral artery walls and their elastic properties. The hypothesis that the BM utilises a unidirectional valve mechanism is plausible as the general lymphatic system of the body also has one and its existence has previously been speculated \cite{Weller2010,Schley2006,Heppell2013}.
+The results show that the valve mechanism as implemented in our analytical model of the BM guarantees net reverse flow inside the BM under physiological blood flow conditions. The valve mechanism is required to be strong, \ie the ratio of $K_0/K_1$ needs to be small. Additionally,the model shows that a valve mechanism is neccessary for net reverse flow to occur within the BM, confirming results from previous studies that did not include a valve mechanism and concluded the existence of some attachment mechanism \cite{Schley2006,Wang2011}. Net drainage additionally depends on the distance of the BM from the artery lumen. The closer the BM is placed to the lumen the faster net reverse drainage is, but variations remain within the same order of magnitude. This is due to the relatively large thickness of cerebral artery walls and their elastic properties. The hypothesis that the BM utilises a unidirectional valve mechanism is plausible as the general lymphatic system of the body also has one and its existence has previously been speculated \cite{Weller2010,Schley2006,Heppell2013}.
 
 Since the development of the Schley model we have gained knowledge on the approximate velocity of the drainage and are able to perform imaging in live mice \cite{Carare2008,Schley2006,Arbel-Ornath2013}, yet this key information has not been utilised in more recent mathematical and computational studies \cite{Wang2011,Sharp2015}. From the results of Carare et al. \cite{Carare2008} it was estimated that the velocity for perivascular drainage in blood vessels of roughly \SI{10}{\micro\metre} in diameter is in the order of magnitude of \SI{8}{\micro\metre\per\second}. Arbel-Ornath et~al. \cite{Arbel-Ornath2013} measured the dye intensity of the tracers, which does not allow them to directly measure the velocity of the drainage but, from their results, a half-life period of about five minutes can be assumed for their \SI{3}{\micro\litre} injection volume. Therefore, we would expect a volumetric flux in the order of magnitude of \SI{0.001}{\cubic\milli\metre\per\second}. No correlation between ISF velocity and artery diameter was found.
 
